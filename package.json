@@ -1,0 +1,21 @@
+{
+  "name": "college-project-audio-rooms",
+  "version": "1.0.0",
+  "description": "A webapp that can be used to make audio calls with friends using rooms",
+  "main": "app.js",
+  "scripts": {
+    "developerStart": "nodemon app.js"
+  },
+  "author": "Mr'Zeffy",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.5",
+    "express": "^4.17.1",
+    "socket.io": "^3.0.3",
+    "socket.io-client": "^3.0.3",
+    "uuid": "^8.3.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}

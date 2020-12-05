@@ -1,0 +1,128 @@
+@import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+body{
+	padding:0;
+	margin:0;
+	min-height: 100vh;
+	font-family: 'Roboto', sans-serif;
+}
+
+.logoContainer img{
+	width: 120px;
+	height: auto;
+}
+
+.logoContainer{
+	display: flex;
+	align-items: center;
+}
+
+.logoContainer #branding{
+	font-size: 25px;
+	font-family: 'Do Hyeon', sans-serif;
+}
+
+.navigationBar{
+	display: flex;
+	/* justify-content: flex-start; */
+}
+
+.navigationBar .navigationMenu{
+	/* justify-self: flex-end; */
+	margin-left: auto;
+	margin-right: 30px;
+	display: flex;
+	align-items: center;
+}
+
+.navigationBar .navigationMenu ul{
+	list-style-type: none;
+	padding-left: 0;
+	margin: none;
+}
+
+.navigationBar .navigationMenu ul li{
+	display: inline-block;
+	font-size: 25px;
+	padding: 1px 8px;
+
+}
+
+
+.jumboSection{
+	margin-top: 40px;
+}
+
+
+.jumboFlexBox{
+	display: flex;
+	flex-wrap: wrap;
+	padding-left: 4%;
+	padding-right: 4%;
+}
+
+.jumboFlexBox div{
+	flex-basis: 50%;
+	min-width: 300px;
+}
+
+.jumboFlexBox .jumboTextSection .headingParaContainer{
+	padding-right: 150px;
+}
+
+.jumboFlexBox .jumboTextSection h2{
+	font-size: 42px;
+	font-weight: 400;
+}
+
+.jumboFlexBox .jumboTextSection .headingParaContainer p{
+	color: #686C70;
+}
+
+
+
+.jumboImageSection .imageContainer{
+	/* background-color: red; */
+	border-radius: 20px;
+	box-shadow: 1px 1px 5px 0 grey;
+	text-align: center;
+	padding: 20px;
+}
+
+.jumboImageSection img{
+	width: 100%;
+	border-radius: 20px;
+	/* padding: 20px; */
+}
+
+
+@media (max-width: 960px){
+	.jumboFlexBox{
+		flex-direction: column;
+	}
+
+	.jumboFlexBox .jumboTextSection .headingParaContainer{
+		text-align: center;
+		padding-right: 0px;
+		padding: 40px;
+	}
+}
+
+@media (max-width: 480px){
+	.navigationBar .navigationMenu{
+		margin-right: 0;
+		margin-left: 0;
+		justify-content: center;
+	}
+
+	.navigationBar{
+		flex-direction: column;
+		justify-content: center;
+	}
+
+	.logoContainer{
+		justify-content: center;
+	}
+
+}
