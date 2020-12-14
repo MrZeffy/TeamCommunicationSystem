@@ -80,6 +80,39 @@ body{
 	color: #686C70;
 }
 
+.jumboFlexBox .jumboTextSection .headingParaContainer .formContainer{
+	margin-top: 40px;	
+}
+
+.formContainer .userMeetingChoiceForm div{
+	display: inline-block;
+}
+
+.formContainer button, .formContainer input{
+	margin: 2px 8px;
+	padding: 10px 15px;	
+	border: none;
+	outline: none;
+	font-size: 15px;
+}
+
+.formContainer #newMeetingButton{
+	
+	background-color: #00796B;
+	color: white;
+	border: 1px solid #00796B;
+	
+}
+
+.formContainer #meetingCodeField{
+	border: 1px solid #DADCE0;
+	max-width: 200px;
+	/* width: 60%; */
+}
+
+
+
+
 
 
 .jumboImageSection .imageContainer{
