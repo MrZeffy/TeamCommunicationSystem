@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="https://kit.fontawesome.com/cb4f145e9f.js" crossorigin="anonymous"></script>
+	<link rel="stylesheet" type="text/css" href="/css/styles.css">
+	<title>404 Page not found</title>
+</head>
+<body>
+	<nav class="navigationBar">
+		<div class="logoContainer">
+			<img src="/images/logo.jpg" alt="logoImage">
+			<span id="branding">Team Com</span>
+		</div>
+		<div class="navigationMenu">
+			<ul>
+				<li><i class="fas fa-home"></i></li>
+				<li><i class="fas fa-info-circle"></i></li>
+				<li><i class="fas fa-headset"></i></li>
+			</ul>
+		</div>
+	</nav>
+	<div class="errorContainer">
+		<h3>Oops!! This is a dead-end.</h3>
+		<p>Redirecting you to the homepage..</p>
+	</div>
+	<script>
+		console.log('hello');
+		console.log(window.location.host);
+		setTimeout(()=>{
+			console.log('Im running');
+			
+			// window.location.replace(window.location.host);
+			window.location.href = `http://${window.location.host}`;
+		}, 3000);
+	</script>
+</body>
+</html>

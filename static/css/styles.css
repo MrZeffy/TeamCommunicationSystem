@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
+/* =======================================Pre-requisite=================================== */
 body{
 	padding:0;
 	margin:0;
@@ -9,13 +10,13 @@ body{
 }
 
 
-
+/* =======================================Accessories=================================== */
 .hideMe{
 	display: none;
 }
 
 
-
+/* =======================================Navigation/Top bar=================================== */
 .logoContainer img{
 	width: 120px;
 	height: auto;
@@ -58,6 +59,9 @@ body{
 }
 
 
+
+/* =======================================Jumbotron(Text and image)=================================== */
+
 .jumboSection{
 	margin-top: 40px;
 }
@@ -74,6 +78,9 @@ body{
 	flex-basis: 50%;
 	min-width: 300px;
 }
+
+
+/* ====================JumboText======================= */
 
 .jumboFlexBox .jumboTextSection .headingParaContainer{
 	padding-right: 150px;
@@ -157,6 +164,9 @@ body{
 }
 
 
+
+
+/* ====================JumboImage======================= */
 .jumboImageSection .imageContainer{
 	/* background-color: red; */
 	border-radius: 20px;
@@ -172,7 +182,24 @@ body{
 }
 
 
+
+
+
+
+/* =======================================Error page CSS===================================== */
+.errorContainer{
+	text-align: center;
+	margin-top: 50px;
+}
+
+
+
+
+/* =======================================Media Queries===================================== */
+
+
 @media (max-width: 960px){
+	/* =======================================Homepage CSS===================================== */
 	.jumboFlexBox{
 		flex-direction: column;
 	}
@@ -185,6 +212,7 @@ body{
 }
 
 @media (max-width: 480px){
+	/* =======================================Homepage CSS===================================== */
 	.navigationBar .navigationMenu{
 		margin-right: 0;
 		margin-left: 0;
