@@ -8,6 +8,14 @@ body{
 	font-family: 'Roboto', sans-serif;
 }
 
+
+
+.hideMe{
+	display: none;
+}
+
+
+
 .logoContainer img{
 	width: 120px;
 	height: auto;
@@ -90,6 +98,7 @@ body{
 
 .formContainer button, .formContainer input{
 	margin: 2px 8px;
+	margin-left: 0;
 	padding: 10px 15px;	
 	border: none;
 	outline: none;
@@ -101,7 +110,12 @@ body{
 	background-color: #00796B;
 	color: white;
 	border: 1px solid #00796B;
+	font-weight: 500;
 	
+}
+
+.formContainer #newMeetingButton:hover{
+	background-color: #056B5F;
 }
 
 .formContainer #meetingCodeField{
@@ -110,9 +124,37 @@ body{
 	/* width: 60%; */
 }
 
+.formContainer #meetingCodeField:hover{
+	border: 1px solid black;
+}
+
+.formContainer #meetingCodeField:focus{
+	border: 1px solid #056B5F;
+}
+
+.formContainer #joinButton{
+	background-color: white;
+	color: #056B5F;
+	font-weight: 600;
+}
+
+.formContainer #joinButton:disabled{
+	color: grey;
+}
+
+
+#textSectionDivider{
+	margin-top: 30px;
+	border-color: #dadce0;
+	opacity: 0.2;
+}
 
 
 
+.learnMoreText{
+	color: #1A867A;
+	text-decoration: none;
+}
 
 
 .jumboImageSection .imageContainer{

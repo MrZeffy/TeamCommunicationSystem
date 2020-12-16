@@ -7,6 +7,11 @@ const {v4: uuidV4} = require('uuid');
 const path = require('path')
 
 
+// Variables used.
+
+const roomsCreated = [];
+
+
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname,'/static')));
 
@@ -14,12 +19,20 @@ app.get('/', (req, res)=>{
 	res.render('index');
 })
 
-app.get('/generateRoom', (req, res)=>{
-	res.redirect(`/${uuidV4()}`);
+app.get('/generateRoom', (req, res)=>{	
+	let roomCode = uuidV4();
+	roomsCreated.push(roomCode);
+	res.redirect(`/${roomCode}`);
 });
 
 app.get('/:room', (req, res)=>{
-	res.render('meeting', {roomId: req.params.room})
+	if(roomsCreated.find(ele => ele===req.params.room)){
+		res.render('meeting', {roomId: req.params.room})
+	}else{
+		// res.render('errorPage');
+		res.redirect(`/`);
+	}
+	
 })
 
 io.on('connection', socket =>{
