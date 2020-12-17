@@ -30,7 +30,7 @@ app.get('/:room', (req, res)=>{
 		res.render('meeting', {roomId: req.params.room})
 	}else{
 		// res.render('errorPage');
-		res.redirect(`/`);
+		res.render('errorPage');
 	}
 	
 })
