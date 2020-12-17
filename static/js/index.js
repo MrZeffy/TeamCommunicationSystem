@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
 let navigateToGivenCode = function (){
 	
-	window.location.replace(`${window.location.href}${inputField.value}`);
+	window.location.replace(`${window.location.href}r/${inputField.value}`);
 }
 
 let createANewRoom = function(){
