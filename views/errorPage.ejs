@@ -22,18 +22,26 @@
 		</div>
 	</nav>
 	<div class="errorContainer">
-		<h3>Oops!! This is a dead-end.</h3>
-		<p>Redirecting you to the homepage..</p>
+		<div class="imageContainer">
+			<img src="/images/404Image.jpeg" alt="404 Image">
+		</div>
+		<div class="textContainer">
+			<h2>AWWW...DON’T CRY.</h2>
+		<p>t's just a 404 Error! 
+			What you’re looking for may have been misplaced in Long Term Memory.
+			Redirecting you to the homepage....</p>
+		</div>		
+		
 	</div>
 	<script>
 		console.log('hello');
 		console.log(window.location.host);
-		setTimeout(()=>{
+		/* setTimeout(()=>{
 			console.log('Im running');
 			
 			// window.location.replace(window.location.host);
 			window.location.href = `http://${window.location.host}`;
-		}, 3000);
+		}, 3000); */
 	</script>
 </body>
 </html>

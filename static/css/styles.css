@@ -188,8 +188,35 @@ body{
 
 /* =======================================Error page CSS===================================== */
 .errorContainer{
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
 	text-align: center;
 	margin-top: 50px;
+	padding: 0 100px;
+	flex-wrap: wrap;
+}
+
+.errorContainer .textContainer{
+	flex: 4;
+	margin-right: auto;
+	padding-right: 30px;
+	font-size: 20px;
+	margin-top: 60px;
+}
+
+
+.errorContainer .textContainer h2{
+	font-size: 40px;
+}
+
+.errorContainer .imageContainer{
+	flex: 3;
+}
+
+.errorContainer .imageContainer img{
+	max-width: 300px;
+	height: auto;
 }
 
 
@@ -208,6 +235,18 @@ body{
 		text-align: center;
 		padding-right: 0px;
 		padding: 40px;
+	}
+
+
+
+	.errorContainer{
+		padding: 0 30px;
+	}
+}
+
+@media (max-width: 668px){
+	.errorContainer .textContainer{
+		padding-right: 0;
 	}
 }
 
