@@ -5,9 +5,23 @@ const io = require('socket.io')(server);
 const clientIo = require('socket.io-client'); 
 const {v4: uuidV4} = require('uuid');
 const path = require('path')
+const mySQLConnector = require('mysql');
 
 
 // Variables used.
+
+const connector = mySQLConnector.createConnection({
+	host: 'localhost',
+	user: 'root',
+	password: 'Daman6232'
+});
+
+connector.connect((err)=>{
+	if (err) throw err;
+	console.log("Connected");
+})
+
+
 
 const roomsCreated = [];
 
