@@ -46,12 +46,13 @@ connector.query("CREATE TABLE IF NOT EXISTS room_records(room_no VARCHAR(50) PRI
 
 
 
-const roomsCreated = [];
 
 
+// Setting up the view engine and static directory.
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname,'/static')));
 
+// Handling get requests.
 app.get('/', (req, res)=>{	
 	res.render('index');
 });
@@ -61,8 +62,7 @@ app.get('/generateRoom', (req, res)=>{
 	connector.query(`INSERT INTO room_records(room_no) VALUES ("${roomCode}");`, (err, res)=>{
 		if (err) throw err;	
 		
-	});
-	roomsCreated.push(roomCode);
+	});	
 	res.redirect(`/r/${roomCode}`);
 	
 });
@@ -71,24 +71,21 @@ app.get('/generateRoom', (req, res)=>{
 
 
 app.get('/r/:room', (req, res)=>{
+	// Checking if room is present in DB
 	checkRoomInDB(req.params.room).then(()=>{
 		res.render('meeting', {roomId: req.params.room});
 
+		// incrementing userCount in DB
 		updateUserCount(req.params.room, true);
 
 	}).catch((err)=>{
 		
 		res.render('errorPage');
-	});
-	/* if(){
-		
-	}else{
-		// res.render('errorPage');
-		
-	} */
-	
+	});	
 });
 
+
+// Socket on connection getting established
 io.on('connection', socket =>{
 	socket.on('join-room', (roomId, userId)=>{
 		socket.join(roomId);
@@ -99,11 +96,12 @@ io.on('connection', socket =>{
 	})
 });
 
+// setting server to listen to port 3000
 server.listen(3000, ()=>{
 	console.log('server has started');
 });
 
-
+// Checks if room code is present in DB
 let checkRoomInDB = function(roomCode){
 	return new Promise((resolve, reject)=>{
 		
@@ -121,6 +119,7 @@ let checkRoomInDB = function(roomCode){
 	});	
 };
 
+// Gets data from DB
 let getDataFromDB = async function(query){	
 	return new Promise((resolve, reject)=>{
 		connector.query(query, (err, res)=>{
@@ -133,6 +132,7 @@ let getDataFromDB = async function(query){
 	});	
 };
 
+// Used for queries that don't need to return anything
 let writeDataToDB = async function(query){
 	return new Promise((resolve, reject)=>{
 		connector.query(query, (err, res)=>{
@@ -144,6 +144,7 @@ let writeDataToDB = async function(query){
 	});
 };
 
+// updates the user count of particular room.
 let updateUserCount = function(roomCode, increment){
 	let query = `UPDATE room_records SET users = users ${increment?"+":"-"} 1 WHERE room_no = '${roomCode}'`;
 	writeDataToDB(query);
