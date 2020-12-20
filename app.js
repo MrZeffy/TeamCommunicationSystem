@@ -33,7 +33,7 @@ app.get('/:room', (req, res)=>{
 		res.render('errorPage');
 	}
 	
-})
+});
 
 io.on('connection', socket =>{
 	socket.on('join-room', (roomId, userId)=>{
@@ -43,8 +43,8 @@ io.on('connection', socket =>{
 			socket.to(roomId).broadcast.emit('user-disconnected', userId);
 		})
 	})
-})
+});
 
 server.listen(3000, ()=>{
 	console.log('server has started');
-})
+});
