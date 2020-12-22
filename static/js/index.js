@@ -2,6 +2,7 @@ let inputField = null;
 let joinButton = null;
 let userChoiceForm = null;
 let newMeetingButton = null;
+let userCount = 1;
 
 document.addEventListener('DOMContentLoaded', ()=>{
 	userChoiceForm = document.querySelector('.userMeetingChoiceForm');

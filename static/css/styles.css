@@ -25,6 +25,7 @@ body{
 .logoContainer{
 	display: flex;
 	align-items: center;
+	cursor: pointer;
 }
 
 .logoContainer #branding{

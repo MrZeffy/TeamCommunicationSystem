@@ -58,7 +58,7 @@ app.get('/', (req, res)=>{
 });
 
 app.get('/generateRoom', (req, res)=>{	
-	let roomCode = uuidV4();
+	let roomCode = uuidV4();	
 	connector.query(`INSERT INTO room_records(room_no) VALUES ("${roomCode}");`, (err, res)=>{
 		if (err) throw err;	
 		
@@ -84,6 +84,10 @@ app.get('/r/:room', (req, res)=>{
 	});	
 });
 
+app.get('/endCall', (req, res)=>{
+	res.render('endCall');
+})
+
 
 // Socket on connection getting established
 io.on('connection', socket =>{
@@ -99,7 +103,10 @@ io.on('connection', socket =>{
 // setting server to listen to port 3000
 server.listen(3000, ()=>{
 	console.log('server has started');
+
 });
+
+
 
 // Checks if room code is present in DB
 let checkRoomInDB = function(roomCode){
@@ -149,3 +156,4 @@ let updateUserCount = function(roomCode, increment){
 	let query = `UPDATE room_records SET users = users ${increment?"+":"-"} 1 WHERE room_no = '${roomCode}'`;
 	writeDataToDB(query);
 };
+
