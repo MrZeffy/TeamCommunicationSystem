@@ -22,10 +22,10 @@ app.get('/', (req, res)=>{
 app.get('/generateRoom', (req, res)=>{	
 	let roomCode = uuidV4();
 	roomsCreated.push(roomCode);
-	res.redirect(`/${roomCode}`);
+	res.redirect(`r/${roomCode}`);
 });
 
-app.get('/:room', (req, res)=>{
+app.get('/r/:room', (req, res)=>{
 	if(roomsCreated.find(ele => ele===req.params.room)){
 		res.render('meeting', {roomId: req.params.room})
 	}else{
@@ -34,6 +34,12 @@ app.get('/:room', (req, res)=>{
 	}
 	
 });
+
+app.get('/endCall', (req, res)=>{
+	res.render('endCall');
+})
+
+
 
 io.on('connection', socket =>{
 	socket.on('join-room', (roomId, userId)=>{

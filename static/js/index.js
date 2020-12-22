@@ -2,6 +2,7 @@ let inputField = null;
 let joinButton = null;
 let userChoiceForm = null;
 let newMeetingButton = null;
+let userCount = 1;
 
 document.addEventListener('DOMContentLoaded', ()=>{
 	userChoiceForm = document.querySelector('.userMeetingChoiceForm');
@@ -30,7 +31,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
 let navigateToGivenCode = function (){
 	
-	window.location.replace(`${window.location.href}${inputField.value}`);
+	window.location.replace(`${window.location.href}r/${inputField.value}`);
 }
 
 let createANewRoom = function(){
