@@ -5,43 +5,43 @@ const io = require('socket.io')(server);
 const clientIo = require('socket.io-client'); 
 const {v4: uuidV4} = require('uuid');
 const path = require('path')
-const mySQLConnector = require('mysql');
+//const mySQLConnector = require('mysql');
 
 
 // Variables used.
 
 
 // Database connectivity.
-const connector = mySQLConnector.createConnection({
+/*const connector = mySQLConnector.createConnection({
 	host: 'localhost',
 	user: 'root',
 	password: 'Daman6232'
-});
+});*/
 
 
 // Establishing a connection with sql server.
-connector.connect((err)=>{
+/*connector.connect((err)=>{
 	if (err) throw err;
 	
-})
+})*/
 
 // Database/Table creation
 
-connector.query("CREATE DATABASE IF NOT EXISTS videoCallRooms", (err, res)=>{
+/*connector.query("CREATE DATABASE IF NOT EXISTS videoCallRooms", (err, res)=>{
 	if (err) throw err;	
-});
+});*/
 
 // Using the databse that has been created
-connector.query("USE videoCallRooms", (err, res)=>{
+/*connector.query("USE videoCallRooms", (err, res)=>{
 	if (err) throw err;	
 	
-});
+});*/
 
 // Creating a new table for keeping track of rooms that have been created along with their users
-connector.query("CREATE TABLE IF NOT EXISTS room_records(room_no VARCHAR(50) PRIMARY KEY, users INT DEFAULT 0);", (err, res)=>{
+/*connector.query("CREATE TABLE IF NOT EXISTS room_records(room_no VARCHAR(50) PRIMARY KEY, users INT DEFAULT 0);", (err, res)=>{
 	if (err) throw err;	
 	
-});
+});*/
 
 
 
@@ -59,10 +59,10 @@ app.get('/', (req, res)=>{
 
 app.get('/generateRoom', (req, res)=>{	
 	let roomCode = uuidV4();	
-	connector.query(`INSERT INTO room_records(room_no) VALUES ("${roomCode}");`, (err, res)=>{
+	/*connector.query(`INSERT INTO room_records(room_no) VALUES ("${roomCode}");`, (err, res)=>{
 		if (err) throw err;	
 		
-	});	
+	});*/	
 	res.redirect(`/r/${roomCode}`);
 	
 });
@@ -72,16 +72,17 @@ app.get('/generateRoom', (req, res)=>{
 
 app.get('/r/:room', (req, res)=>{
 	// Checking if room is present in DB
-	checkRoomInDB(req.params.room).then(()=>{
-		res.render('meeting', {roomId: req.params.room});
+	res.render('meeting', {roomId: req.params.room});
+	/*checkRoomInDB(req.params.room).then(()=>{
+		
 
-		// incrementing userCount in DB
+		
 		updateUserCount(req.params.room, true);
 
 	}).catch((err)=>{
 		
 		res.render('errorPage');
-	});	
+	});*/	
 });
 
 app.get('/endCall', (req, res)=>{
