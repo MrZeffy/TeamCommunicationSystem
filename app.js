@@ -102,7 +102,7 @@ io.on('connection', socket =>{
 });
 
 // setting server to listen to port 3000
-server.listen(3000, ()=>{
+server.listen(443, ()=>{
 	console.log('server has started');
 
 });
