@@ -3,7 +3,7 @@ let userCount = 1;
 
 
 // Connecting to the socket
-const socket = io('http://localhost:3000/');
+const socket = io('http://ec2-3-80-60-218.compute-1.amazonaws.com:3000/');
 
 // Targeting the containers
 let videoContainer = null;
