@@ -4,7 +4,9 @@ const server = require('https').Server(app);
 const io = require('socket.io')(server);
 const clientIo = require('socket.io-client'); 
 const {v4: uuidV4} = require('uuid');
-const path = require('path')
+const path = require('path');
+var credentials = {key: privateKey, cert: certificate};
+const httpsServer = https.createServer(credentials, app);
 //const mySQLConnector = require('mysql');
 
 
@@ -102,11 +104,12 @@ io.on('connection', socket =>{
 });
 
 // setting server to listen to port 3000
-server.listen(443, ()=>{
+server.listen(80, ()=>{
 	console.log('server has started');
 
 });
 
+httpsServer.listen(443);
 
 
 // Checks if room code is present in DB
