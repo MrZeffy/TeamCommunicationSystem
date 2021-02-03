@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
 // Using peerJs for handling peer to peer connections
 const myPeer = new Peer(undefined, {
-	host: '/',
+	host: 'http://ec2-3-80-60-218.compute-1.amazonaws.com',
 	port: '3001'
 });
 
