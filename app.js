@@ -6,11 +6,11 @@ const clientIo = require('socket.io-client');
 const {v4: uuidV4} = require('uuid');
 const path = require('path');
 
-const fs = require('fs');
-const privateKey  = fs.readFileSync('sslcert/server.key', 'utf8');
-const certificate = fs.readFileSync('sslcert/server.crt', 'utf8');
-const credentials = {key: privateKey, cert: certificate};
-const httpsServer = https.createServer(credentials, app);
+// const fs = require('fs');
+// const privateKey  = fs.readFileSync('sslcert/server.key', 'utf8');
+// const certificate = fs.readFileSync('sslcert/server.crt', 'utf8');
+// const credentials = {key: privateKey, cert: certificate};
+// const httpsServer = https.createServer(credentials, app);
 //const mySQLConnector = require('mysql');
 
 
