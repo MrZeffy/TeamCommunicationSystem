@@ -108,12 +108,12 @@ io.on('connection', socket =>{
 });
 
 // setting server to listen to port 3000
-server.listen(80, ()=>{
+server.listen(process.env.PORT || 80, ()=>{
 	console.log('server has started');
 
 });
 
-httpsServer.listen(443);
+//httpsServer.listen(443);
 
 
 // Checks if room code is present in DB
