@@ -1,0 +1,59 @@
+<html>
+
+<head>
+    
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+    <link rel="stylesheet" type="text/css" href="/css/login.css">
+    <title>Sign in</title>
+</head>
+
+<body>
+    <div class="main">
+        <p class="sign" align="center">Sign in</p>
+        <form class="form1">
+            <input class="un " type="text" name="username" align="center" placeholder="Username" required>
+            <input class="pass" type="password" name="password" align="center" placeholder="Password" required>
+            <button class="submit" align="center">Sign in</button>
+            <div class="registerContainer">
+                <a href="/register" class="registerLink" align="center">New User?</a>
+            </div>
+            
+        </form>
+
+    </div>
+    <script>
+        let form = document.getElementsByClassName('form1')[0];
+        let username = document.getElementsByClassName('un')[0];
+        let password = document.getElementsByClassName('pass')[0];
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const data = new URLSearchParams();
+            for (const pair of new FormData(form)) {
+                data.append(pair[0], pair[1]);
+            }
+
+            fetch('/login', {
+                method: 'post',
+                body: data,
+            })
+                .then((res) => {
+                    return res.json()
+                }).then((res) => {
+                    console.log(res['AccessToken']);
+                    if(!res['AccessToken']){
+                        throw new Error();
+                    }
+                    document.cookie = `authorization=Bearer ${res['AccessToken']}`;
+                    window.location = '/';
+                })
+                .catch(()=>{
+                    alert('Something went wrong.')
+                })
+        })
+    </script>
+</body>
+
+</html>

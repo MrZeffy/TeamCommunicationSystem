@@ -4,46 +4,10 @@ const server = require('http').Server(app);
 const io = require('socket.io')(server);
 const {v4: uuidV4} = require('uuid');
 const path = require('path')
-const mySQLConnector = require('mysql');
-
-
-// Variables used.
-
-
-// Database connectivity.
-const connector = mySQLConnector.createConnection({
-	host: 'localhost',
-	user: 'root',
-	password: 'password'
-});
-
-
-// Establishing a connection with sql server.
-connector.connect((err)=>{
-	if (err) throw err;
-	
-})
-
-// Database/Table creation
-
-connector.query("CREATE DATABASE IF NOT EXISTS videoCallRooms", (err, res)=>{
-	if (err) throw err;	
-});
-
-// Using the databse that has been created
-connector.query("USE videoCallRooms", (err, res)=>{
-	if (err) throw err;	
-	
-});
-
-// Creating a new table for keeping track of rooms that have been created along with their users
-connector.query("CREATE TABLE IF NOT EXISTS room_records(room_no VARCHAR(50) PRIMARY KEY, users INT DEFAULT 0);", (err, res)=>{
-	if (err) throw err;	
-	
-});
-
-
-
+const DBConnector = require('./Database/Connector');
+const jwt = require('jsonwebtoken')
+var cookieParser = require('cookie-parser');
+app.use(cookieParser())
 
 
 
@@ -51,34 +15,116 @@ connector.query("CREATE TABLE IF NOT EXISTS room_records(room_no VARCHAR(50) PRI
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname,'/static')));
 
+
+// Loading Secret from .env file or using a default one if none found.
+const ourLittleSecret = process.env['SECRET_KEY'] || 'little Secret';
+
+
+// Parsing request data.
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 // Handling get requests.
-app.get('/', (req, res)=>{	
+app.get('/', checkToken,(req, res)=>{	
 	res.render('index');
 });
 
-app.get('/generateRoom', (req, res)=>{	
+app.get('/login', (req, res)=>{
+	res.render('login');
+})
+
+app.get('/register', (req, res) => {
+	res.render('register');
+})
+
+
+app.post('/login', (req, res)=>{
+	// let { username, password } = req.body;
+	let username = req.body.username;
+	let password = req.body.password;
+
+	// Checking if request body has username and password.
+	if (!username || !password) {
+		return res.send("Please send username and password");
+	}
+
+	DBConnector.loginUser(username, password)
+	.then((user)=>{
+		// Creating a token.
+		jwt.sign(user, ourLittleSecret, (err, token) => {
+			if (err) throw err;
+			else res.json({
+				AccessToken: token
+			});
+		});
+	}).catch((err)=>{
+		console.log(err);
+		res.send("Something went wrong.");
+	})
+})
+
+
+// End point for registering new user. 
+app.post('/register', (req, res) => {	
+	// let { username, password } = req.body;
+	let username = req.body.username;
+	let password = req.body.password;
+
+	// Checking if request body has username and password.
+	if (!username || !password) {
+		return res.send("Please send username and password");
+	}
+
+	//  Storing credentials in database.
+	DBConnector.addUser(username, password).then((userId) => {
+
+		// Wrapping username into an object for creating a JWT.
+		const user = {
+			username,
+			userId
+		}
+
+		// Creating a token.
+		jwt.sign(user, ourLittleSecret, (err, token) => {
+			if (err) throw err;
+			else res.json({
+				AccessToken: token
+			});
+		})
+	}).catch((err) => {
+		console.log(err);
+		res.send('OOPS! something went wrong');
+	})
+
+
+});
+
+
+// Generate room
+app.get('/generateRoom', checkToken,(req, res)=>{	
 	let roomCode = uuidV4();	
-	connector.query(`INSERT INTO room_records(room_no) VALUES ("${roomCode}");`, (err, res)=>{
-		if (err) throw err;	
-		
-	});	
-	res.redirect(`/r/${roomCode}`);
+	DBConnector.addRoom(roomCode)
+	.then(()=>{
+		res.redirect(`/r/${roomCode}`);
+	})
+	.catch((err)=>{
+		res.send('OOPS! something went wrong.')
+	})
 	
 });
 
 
 
 
-app.get('/r/:room', (req, res)=>{
+app.get('/r/:room', checkToken,(req, res)=>{
 	// Checking if room is present in DB
-	checkRoomInDB(req.params.room).then(()=>{
+	DBConnector.checkRoomInDB(req.params.room).then(()=>{
 		res.render('meeting', {roomId: req.params.room});
 
 		// incrementing userCount in DB
-		updateUserCount(req.params.room, true);
+		DBConnector.updateUserCount(req.params.room, true);
 
-	}).catch((err)=>{
-		
+	}).catch(()=>{
 		res.render('errorPage');
 	});	
 });
@@ -99,60 +145,56 @@ io.on('connection', socket =>{
 	})
 });
 
-// setting server to listen to port 3000
-server.listen(3000, ()=>{
-	console.log('server has started');
 
-});
+// Middleware for checking if token is present.
 
+function checkToken(req, res, next) {
 
+	const bearer = req.cookies.authorization;
 
-// Checks if room code is present in DB
-let checkRoomInDB = function(roomCode){
-	return new Promise((resolve, reject)=>{
-		
-		let dataIsPresent = true;
-		connector.query(`SELECT room_no FROM room_records WHERE room_no = "${roomCode}"`, (err, res)=>{
-			if (err) throw err;		
-			
-			
-			if(!res[0]){
-				
-				return reject(err);
-			}		
-			resolve(res[0]);
-		});		
-	});	
-};
+	if (!bearer) {
+		return res.redirect('/login');
+	}
 
-// Gets data from DB
-let getDataFromDB = async function(query){	
-	return new Promise((resolve, reject)=>{
-		connector.query(query, (err, res)=>{
-			if (err) throw err;
-			if(!res[0]){
-				return reject('No data');
+	const token = bearer.split(' ')[1];
+
+	// Verifying Token
+	try {
+		jwt.verify(token, ourLittleSecret, (err, user) => {
+			if (err) {
+				res.send('Error');
+				throw err;
 			}
-			resolve(res);
-		});
-	});	
-};
-
-// Used for queries that don't need to return anything
-let writeDataToDB = async function(query){
-	return new Promise((resolve, reject)=>{
-		connector.query(query, (err, res)=>{
-			if (err){
-				reject(err);
+			else {
+				req.user = user;
+				next();
 			}
-			resolve();
-		});
+		})
+	} catch (err) {
+		console.log(err);
+	}
+
+}
+
+
+
+// Establishing connection with database.
+DBConnector.establishConnection({
+	host: 'localhost',
+	user: 'root',
+	password: 'Daman6232'
+})
+.then(()=>{
+	return DBConnector.setupSchema()
+}).then(()=>{
+	// setting server to listen to port 3000
+	server.listen(3000, () => {
+		console.log('server has started');
+
 	});
-};
-
-// updates the user count of particular room.
-let updateUserCount = function(roomCode, increment){
-	let query = `UPDATE room_records SET users = users ${increment?"+":"-"} 1 WHERE room_no = '${roomCode}'`;
-	writeDataToDB(query);
-};
+})
+.catch((err)=>{
+	console.log("Error establishing connection to database");
+	console.log(err.message);
+})
 

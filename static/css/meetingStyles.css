@@ -19,11 +19,12 @@ body{
 
 #videoContainer video{
 	/* width: 100%; */
-	min-width: 300px;
+	min-width: 400px;
+	max-width: 600px;
+	box-sizing: border-box;
 	height: auto;
-	flex: 1;
-    flex-basis: 300px;
-    min-width: 100px;
+    flex-basis: 400px;
+	flex-grow: 1;
     height: auto;
 }	
 
